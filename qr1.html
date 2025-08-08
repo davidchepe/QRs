@@ -7,25 +7,27 @@
 <!-- Updated version with sliding puzzle -->
 <style>
   html,body {
-    height: 100%;
+    height: 100vh;
     margin: 0;
+    padding: 10px;
     background: #ffe6eb;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'Segoe UI', sans-serif;
+    box-sizing: border-box;
   }
   
   .puzzle-container {
     display: grid;
-    grid-template-columns: repeat(4, 120px);
-    grid-template-rows: repeat(3, 120px);
+    grid-template-columns: repeat(4, min(18vw, 90px));
+    grid-template-rows: repeat(3, min(18vw, 90px));
     gap: 2px;
     background: #ff3366;
     border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 8px;
+    margin: 15px 0;
   }
   
   .puzzle-piece {
@@ -34,12 +36,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: min(4vw, 1.5rem);
     font-weight: bold;
     color: #ff3366;
     cursor: pointer;
     transition: all 0.3s ease;
     user-select: none;
+    position: relative;
+    border: 2px solid #ff3366;
+  }
+  
+  .puzzle-piece .number {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: min(2.5vw, 0.8rem);
+    color: #999;
+    font-weight: normal;
   }
   
   .puzzle-piece:hover {
@@ -59,16 +72,18 @@
   .instructions {
     text-align: center;
     color: #ff3366;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+    font-size: min(4vw, 1.1rem);
+    margin-bottom: 10px;
+    padding: 0 10px;
   }
   
   .victory-message {
     display: none;
-    font-size: 3rem;
+    font-size: min(6vw, 2.5rem);
     color: #ff3366;
     animation: pulse 1.5s infinite;
     text-align: center;
+    padding: 0 10px;
   }
   
   @keyframes pulse {
@@ -81,11 +96,11 @@
     background: #ff3366;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: min(3.5vw, 0.9rem);
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .shuffle-btn:hover {
@@ -95,7 +110,7 @@
 </head>
 <body>
   <div class="instructions">
-    Organiza las piezas para revelar tu mensaje especial 💝
+    Organiza las piezas para descubrir tu primer regalo 💝
   </div>
   
   <div class="puzzle-container" id="puzzleContainer">
@@ -105,23 +120,22 @@
   <button class="shuffle-btn" onclick="shufflePuzzle()">Mezclar de nuevo</button>
   
   <div class="victory-message" id="victoryMessage">
-    💝 Tu primer regalo 💝
+    💝 Busca en la buhardilla donde haces pesas 💝
   </div>
 
   <script>
     const puzzleContainer = document.getElementById('puzzleContainer');
     const victoryMessage = document.getElementById('victoryMessage');
     
-    // The message split into puzzle pieces
+    // The message split into puzzle pieces (4x3 = 12 pieces)
     const solution = [
-      'T', 'u', ' ', 'p',
-      'r', 'i', 'm', 'e',
-      'r', ' ', 'r', 'e',
-      'g', 'a', 'l', 'o'
+      'B', 'u', 's', 'c',
+      'a', ' ', 'e', 'n',
+      ' ', 'b', 'u', 'h'
     ];
     
     let currentState = [...solution];
-    let emptyIndex = 15; // Last position is empty
+    let emptyIndex = 11; // Last position is empty (4x3 = 12 pieces, index 11)
     
     function createPuzzle() {
       puzzleContainer.innerHTML = '';
@@ -132,7 +146,11 @@
           div.className += ' empty';
           div.textContent = '';
         } else {
-          div.textContent = piece;
+          const number = document.createElement('span');
+          number.className = 'number';
+          number.textContent = index + 1;
+          div.appendChild(number);
+          div.appendChild(document.createTextNode(piece));
         }
         div.onclick = () => movePiece(index);
         puzzleContainer.appendChild(div);
@@ -163,7 +181,7 @@
     
     function checkVictory() {
       const isComplete = solution.every((piece, index) => {
-        if (index === 15) return true; // Empty space
+        if (index === 11) return true; // Empty space at position 11
         return currentState[index] === piece;
       });
       
@@ -190,9 +208,9 @@
         const row = Math.floor(emptyIndex / 4);
         const col = emptyIndex % 4;
         
-        // Check all adjacent positions
+        // Check all adjacent positions for 4x3 grid
         if (row > 0) possibleMoves.push(emptyIndex - 4); // Up
-        if (row < 2) possibleMoves.push(emptyIndex + 4); // Down
+        if (row < 2) possibleMoves.push(emptyIndex + 4); // Down (only 3 rows, so max row is 2)
         if (col > 0) possibleMoves.push(emptyIndex - 1); // Left
         if (col < 3) possibleMoves.push(emptyIndex + 1); // Right
         
