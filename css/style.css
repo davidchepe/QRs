@@ -93,3 +93,23 @@ button:hover {
     background: #1db954 !important;
     color: white !important;
 }
+
+.center-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    text-align: center;
+}
+
+.center-message h1 {
+    font-size: 3rem;
+    color: #1db954;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
