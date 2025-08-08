@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator - Home</title>
+    <title>QR Page 2</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>QR Code Generator</h1>
-        <p>Welcome to the QR Code Generator. This site contains 4 different pages, each with its own QR code.</p>
-        
         <nav>
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="qr1.html">Page 1</a></li>
-                <li><a href="qr2.html">Page 2</a></li>
+                <li><a href="qr2.html" class="current-page">Page 2</a></li>
                 <li><a href="qr3.html">Page 3</a></li>
                 <li><a href="qr4.html">Page 4</a></li>
             </ul>
         </nav>
-
+        
+        <h1>QR Page 2</h1>
+        <p>This is the second QR code page. Content will be provided later.</p>
+        
         <div class="qr-section">
-            <h2>Generate All QR Codes</h2>
-            <button onclick="generateAllQRs()">Generate QR Codes</button>
+            <h2>QR Code for This Page</h2>
+            <button onclick="showCurrentPageQR(2)">Show QR Code</button>
+            <button onclick="qrGen.downloadQR(2)">Download QR2.png</button>
             <div id="qr-display"></div>
         </div>
     </div>
